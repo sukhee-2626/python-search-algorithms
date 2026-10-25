@@ -1,0 +1,2488 @@
+import heapq
+import math
+from bisect import bisect_left
+from collections import deque
+
+def linear_search_0398_0001(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def jump_search_0398_0002(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def exponential_search_0398_0003(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def binary_search_0398_0004(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def ternary_search_0398_0005(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def interpolation_search_0398_0006(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def linear_search_0398_0007(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def interpolation_search_0398_0008(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def binary_search_0398_0009(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def ternary_search_0398_0010(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def jump_search_0398_0011(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def exponential_search_0398_0012(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def ternary_search_0398_0013(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def exponential_search_0398_0014(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0015(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def jump_search_0398_0016(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def linear_search_0398_0017(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def binary_search_0398_0018(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def exponential_search_0398_0019(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0020(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def jump_search_0398_0021(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def interpolation_search_0398_0022(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def binary_search_0398_0023(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def ternary_search_0398_0024(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def ternary_search_0398_0025(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def linear_search_0398_0026(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def binary_search_0398_0027(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0028(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def exponential_search_0398_0029(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def jump_search_0398_0030(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def jump_search_0398_0031(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def interpolation_search_0398_0032(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def exponential_search_0398_0033(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def binary_search_0398_0034(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0035(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def ternary_search_0398_0036(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def ternary_search_0398_0037(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def linear_search_0398_0038(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def exponential_search_0398_0039(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0040(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def jump_search_0398_0041(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def binary_search_0398_0042(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def binary_search_0398_0043(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0044(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def ternary_search_0398_0045(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def exponential_search_0398_0046(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0047(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def jump_search_0398_0048(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def linear_search_0398_0049(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def interpolation_search_0398_0050(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def binary_search_0398_0051(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def exponential_search_0398_0052(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def jump_search_0398_0053(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def ternary_search_0398_0054(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def linear_search_0398_0055(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def exponential_search_0398_0056(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0057(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def ternary_search_0398_0058(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def jump_search_0398_0059(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def binary_search_0398_0060(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def ternary_search_0398_0061(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def linear_search_0398_0062(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def interpolation_search_0398_0063(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def binary_search_0398_0064(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def exponential_search_0398_0065(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def jump_search_0398_0066(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def ternary_search_0398_0067(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def binary_search_0398_0068(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def jump_search_0398_0069(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def linear_search_0398_0070(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def interpolation_search_0398_0071(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def exponential_search_0398_0072(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def binary_search_0398_0073(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0074(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def exponential_search_0398_0075(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def jump_search_0398_0076(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def ternary_search_0398_0077(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def interpolation_search_0398_0078(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def ternary_search_0398_0079(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def exponential_search_0398_0080(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0081(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def linear_search_0398_0082(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def binary_search_0398_0083(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def jump_search_0398_0084(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def interpolation_search_0398_0085(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def jump_search_0398_0086(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def binary_search_0398_0087(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def exponential_search_0398_0088(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0089(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def ternary_search_0398_0090(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def binary_search_0398_0091(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0092(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def exponential_search_0398_0093(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def ternary_search_0398_0094(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def jump_search_0398_0095(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def interpolation_search_0398_0096(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def binary_search_0398_0097(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0098(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def exponential_search_0398_0099(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0100(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def jump_search_0398_0101(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def ternary_search_0398_0102(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def linear_search_0398_0103(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def binary_search_0398_0104(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def ternary_search_0398_0105(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def exponential_search_0398_0106(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def jump_search_0398_0107(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def interpolation_search_0398_0108(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def jump_search_0398_0109(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def exponential_search_0398_0110(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0111(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def binary_search_0398_0112(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def ternary_search_0398_0113(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def interpolation_search_0398_0114(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def exponential_search_0398_0115(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0116(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def ternary_search_0398_0117(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def jump_search_0398_0118(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def interpolation_search_0398_0119(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def binary_search_0398_0120(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def exponential_search_0398_0121(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0122(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def binary_search_0398_0123(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0124(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def jump_search_0398_0125(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def ternary_search_0398_0126(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def jump_search_0398_0127(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def ternary_search_0398_0128(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def binary_search_0398_0129(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0130(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def exponential_search_0398_0131(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0132(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def binary_search_0398_0133(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def exponential_search_0398_0134(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0135(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def jump_search_0398_0136(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def linear_search_0398_0137(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def ternary_search_0398_0138(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def linear_search_0398_0139(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def exponential_search_0398_0140(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def jump_search_0398_0141(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def ternary_search_0398_0142(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def interpolation_search_0398_0143(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def binary_search_0398_0144(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0145(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def ternary_search_0398_0146(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def jump_search_0398_0147(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def exponential_search_0398_0148(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def binary_search_0398_0149(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0150(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def linear_search_0398_0151(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def ternary_search_0398_0152(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def jump_search_0398_0153(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def exponential_search_0398_0154(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def binary_search_0398_0155(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0156(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def interpolation_search_0398_0157(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def ternary_search_0398_0158(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def binary_search_0398_0159(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0160(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def exponential_search_0398_0161(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def jump_search_0398_0162(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def linear_search_0398_0163(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def exponential_search_0398_0164(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def interpolation_search_0398_0165(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def binary_search_0398_0166(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def ternary_search_0398_0167(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def jump_search_0398_0168(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def interpolation_search_0398_0169(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+
+def ternary_search_0398_0170(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        third = (high - low) // 3
+        middle_left = low + third
+        middle_right = high - third
+        if values[middle_left] == target:
+            return middle_left
+        if values[middle_right] == target:
+            return middle_right
+        if target < values[middle_left]:
+            high = middle_left - 1
+        elif target > values[middle_right]:
+            low = middle_right + 1
+        else:
+            low = middle_left + 1
+            high = middle_right - 1
+    return -1
+
+def exponential_search_0398_0171(values, target):
+    length = len(values)
+    if length == 0:
+        return -1
+    bound = 1
+    while bound < length and values[bound] < target:
+        bound *= 2
+    low = bound // 2
+    high = min(bound, length - 1)
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def linear_search_0398_0172(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+def jump_search_0398_0173(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def binary_search_0398_0174(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def binary_search_0398_0175(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high:
+        middle = (low + high) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            low = middle + 1
+        else:
+            high = middle - 1
+    return -1
+
+def jump_search_0398_0176(values, target):
+    length = len(values)
+    step = max(1, int(math.sqrt(length)))
+    start = 0
+    while start < length and values[start] < target:
+        start += step
+    for index in range(max(0, start - step), min(length, start + 1)):
+        if values[index] == target:
+            return index
+    return -1
+
+def interpolation_search_0398_0177(values, target):
+    low = 0
+    high = len(values) - 1
+    while low <= high and values[low] <= target <= values[high]:
+        if values[high] == values[low]:
+            return low if values[low] == target else -1
+        position = low + (target - values[low]) * (high - low) // (values[high] - values[low])
+        if values[position] == target:
+            return position
+        if values[position] < target:
+            low = position + 1
+        else:
+            high = position - 1
+    return -1
+LOOKUP_0398_001 = 820
+LOOKUP_0398_002 = 623
+LOOKUP_0398_003 = 760
+LOOKUP_0398_004 = 183
+LOOKUP_0398_005 = 284
+LOOKUP_0398_006 = 730
+LOOKUP_0398_007 = 616
+LOOKUP_0398_008 = 251
+LOOKUP_0398_009 = 233
